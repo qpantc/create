@@ -56,7 +56,7 @@ def create_task(site_id='line',
         with open(task_dir+'run.R', 'r+') as file:
             lines = file.readlines()
             
-            lines.insert(0, 'trait_ =' + '"' +site_id + '"\n')
+            lines.insert(0, 'index =' + '"' +site_id + '"\n')
             lines.insert(1, 'Input_path =' + '"' +input_path + '"\n')
             lines.insert(2, 'Output_path =' + '"' +output_path + '"\n')
 
@@ -67,9 +67,11 @@ def create_task(site_id='line',
 
 if __name__ == '__main__':
     
-    run_path = r'/scratch/gent/vo/000/gvo00074/vsc44253/phd/paper2/HPC/Response_slope/run/'
-    input_path = r'/scratch/gent/vo/000/gvo00074/vsc44253/phd/paper2/HPC/Response_slope/create/Inputs/'
-    output_path = r'/scratch/gent/vo/000/gvo00074/vsc44253/phd/paper2/HPC/Response_slope/Outputs/'
+    current_path = os.getcwd()
+
+    run_path =  current_path +'/..' +r'/run/'
+    input_path = current_path + r'/Inputs/'
+    output_path = current_path +'/..' + r'/Outputs/'
     
     if not os.path.exists(run_path):
         os.mkdir(run_path)
@@ -77,12 +79,12 @@ if __name__ == '__main__':
     if not os.path.exists(run_path + 'run.sh'):
         copy_file('./run.sh',run_path + '/run.sh')
 
-    # site_info_file = 'siteinfo.txt'
-    # file_lines = read_txt_to_list(site_info_file)
-    file_lines = ["LA","LD","LKC","LNC",
-                 "B.thick","Conduit.d.","Crown.dia",#"Crown.H",
-                 "LPC","L.thick","Vcmax","R.depth","SLA",
-                 "SD","Stom.c","Max.H","WD"]
+    site_info_file = 'run_list.txt'
+    file_lines = read_txt_to_list(site_info_file)
+    # file_lines = ["LA","LD","LKC","LNC",
+    #              "B.thick","Conduit.d.","Crown.dia",#"Crown.H",
+    #              "LPC","L.thick","Vcmax","R.depth","SLA",
+    #              "SD","Stom.c","Max.H","WD"]
     for line in file_lines:
         print(line)
         create_task(
